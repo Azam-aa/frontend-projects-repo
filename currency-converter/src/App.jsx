@@ -1,13 +1,28 @@
 import {useState } from "react";
+import axios from "axios";
 import "./App.css";
+import { div } from "three/tsl";
 
 
 function App(){
   const [amount, setAmount] = useState(1);
   const [from, setFrom] = useState("USD");
   const [to, setTo] = useState("INR");
+  const [result, setResult] = useState(null);
 
-  const convertCurrency = async() => {};
+  const convertCurrency = async() => {
+
+    try{
+      const res = await axios.get(
+        `http://localhost:8080/convert?amount=${amount}&from=${from}&to=${to}`
+      )
+      setResult(res.data);
+
+    } catch(err){
+      console.error(err);
+    }
+
+  };
 
   return(
     <>
@@ -45,7 +60,15 @@ function App(){
         
       </div>
 
-      <button className="border border-white rounded-2xl px-3 py-2 mt-3 w-35 bg-blue-800 cursor-pointer" type="submit">Convert</button>
+      <button onClick={convertCurrency} className="border border-white rounded-2xl px-3 py-2 mt-3 w-35 bg-blue-800 cursor-pointer" type="submit">Convert</button>
+
+      {
+        result !== null && (
+          <div className="text-xl mt-4"> 
+          <p>Converted Amount : <span className="font-bold">{result}</span></p>
+          </div>
+        )
+      }
 
     </div>
         
