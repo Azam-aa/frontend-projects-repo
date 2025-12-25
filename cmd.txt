@@ -1,4 +1,4 @@
 git add .
-git commit -m "Added Project 01 - Weather App"
+git commit -m " "
 git push origin main
 git pull origin main
